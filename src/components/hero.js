@@ -86,6 +86,7 @@ const Hero = ({
                         alt={alt}
                         width={350}
                         height={350}
+                        className='p-4'
                         style={{
                             maskImage:
                                 'linear-gradient(black 80%, transparent 100%)',

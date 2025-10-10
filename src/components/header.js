@@ -88,7 +88,7 @@ const Header = ({ theme, setTheme, refs }) => {
                             variant='ghost'
                             size='icon'
                             aria-label='Toggle theme'
-                            className='w-9 px-0'
+                            className='w-9 px-0 no-konami'
                             onClick={() =>
                                 setTheme(theme === 'dark' ? 'light' : 'dark')
                             }
@@ -107,7 +107,7 @@ const Header = ({ theme, setTheme, refs }) => {
                                 <Button
                                     variant='ghost'
                                     size='icon'
-                                    className='md:hidden'
+                                    className='md:hidden no-konami'
                                 >
                                     <Menu className='h-5 w-5' />
                                     <span className='sr-only'>Toggle menu</span>

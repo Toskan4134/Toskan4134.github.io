@@ -201,9 +201,27 @@ export const skills = [
         tags: ['backend', 'security', 'authentication', 'java'],
         aliases: [],
     },
+    {
+        name: 'Tauri',
+        level: 2,
+        related: ['JavaScript', 'React', 'Next.js', 'Vue.js'],
+        tags: ['desktop', 'frontend', 'framework', 'app'],
+        aliases: ['tauri-apps'],
+    },
 ];
 
 export const projects = [
+    {
+        title: 'PokeShop',
+        description:
+            'Aplicación de escritorio para generar una tienda aleatoria de Pokémon por regiones y tiers. Permite compras con moneda ficticia, rerolls limitados y un historial de acciones.',
+        github: 'https://github.com/Toskan4134/PokeShop',
+        web: {
+            name: 'Descargar',
+            url: 'https://github.com/Toskan4134/PokeShop/releases/latest',
+        },
+        image: 'https://private-user-images.githubusercontent.com/62228706/492068677-4d4650fc-9f38-4b2d-b1e5-8e31c6a59c10.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjAxMTQ1ODAsIm5iZiI6MTc2MDExNDI4MCwicGF0aCI6Ii82MjIyODcwNi80OTIwNjg2NzctNGQ0NjUwZmMtOWYzOC00YjJkLWIxZTUtOGUzMWM2YTU5YzEwLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTEwMTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUxMDEwVDE2MzgwMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTk2YTRmODZlYTEyNGFiN2E2Y2ZjMzE4ODIxYzEwMmEyMTUxMDg1M2M0Y2JmNmRlNTIxYzMwYjZkNTFmOWE0NTkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.bYWJxPGV9tdwC2_KPzLP57_M-UrMaFSiQ1V8d6zb2h4',
+    },
     {
         title: 'LethalRegeneration',
         description: 'A simple regeneration Lethal Compay mod',
@@ -225,16 +243,16 @@ export const projects = [
         },
         image: 'https://i.imgur.com/OUHgRXI.png',
     },
-    {
-        title: "Human's Fate Reborn",
-        description: 'Trabajo para Programación de Multimedia 2ºDAM con libGDX',
-        github: 'https://github.com/Toskan4134/HumansFate-Reborn',
-        web: {
-            name: 'Descargar',
-            url: 'https://github.com/Toskan4134/HumansFate-Reborn/releases/tag/v1.0.1',
-        },
-        image: 'https://i.imgur.com/nGfnuhU.png',
-    },
+    // {
+    //     title: "Human's Fate Reborn",
+    //     description: 'Trabajo para Programación de Multimedia 2ºDAM con libGDX',
+    //     github: 'https://github.com/Toskan4134/HumansFate-Reborn',
+    //     web: {
+    //         name: 'Descargar',
+    //         url: 'https://github.com/Toskan4134/HumansFate-Reborn/releases/tag/v1.0.1',
+    //     },
+    //     image: 'https://i.imgur.com/nGfnuhU.png',
+    // },
 ];
 
 export const experience = [

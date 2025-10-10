@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Github, Linkedin, Mail, Search, TwitterIcon, X } from 'lucide-react';
+import { Github, Linkedin, Mail, Search, TwitterIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import yoCartoon from './assets/YoCartoonWide.png';
@@ -23,6 +23,8 @@ function App() {
     const [defaultVisibleSkillsCount, setDefaultVisibleSkillsCount] =
         useState(8);
     const [skillSearch, setSkillSearch] = useState('');
+    const [konamiActive, setKonamiActive] = useState(false);
+    const [konamiSequence, setKonamiSequence] = useState([]);
 
     const [startRef, setStartRef] = useState(null);
     const [skillsRef, setSkillsRef] = useState(null);
@@ -51,11 +53,54 @@ function App() {
     }, []);
 
     useEffect(() => {
+        // Disable automatic scroll restoration
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
+        // Reset scroll position on mount
+        window.scrollTo(0, 0);
         setMounted(true);
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [handleResize]);
+
+    // Konami Code Easter Egg
+    useEffect(() => {
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+        const handleKeyPress = (e) => {
+            const key = e.key.toLowerCase() === 'arrowup' ? 'ArrowUp' :
+                        e.key.toLowerCase() === 'arrowdown' ? 'ArrowDown' :
+                        e.key.toLowerCase() === 'arrowleft' ? 'ArrowLeft' :
+                        e.key.toLowerCase() === 'arrowright' ? 'ArrowRight' :
+                        e.key.toLowerCase();
+
+            setKonamiSequence(prev => {
+                const newSequence = [...prev, key];
+
+                // Keep only the last 10 keys
+                if (newSequence.length > 10) {
+                    newSequence.shift();
+                }
+
+                // Check if sequence matches Konami Code
+                if (newSequence.length === 10) {
+                    const matches = newSequence.every((k, i) => k === konamiCode[i]);
+                    if (matches) {
+                        setKonamiActive(prev => !prev);
+                        return [];
+                    }
+                }
+
+                return newSequence;
+            });
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, []);
 
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
@@ -131,7 +176,9 @@ function App() {
 
     return (
         <div
-            className={`App ${theme} flex flex-col items-center content-center flex-wrap bg-background text-foreground`}
+            className={`App ${theme}  ${
+                konamiActive ? 'konami-active' : ''
+            } flex flex-col items-center content-center flex-wrap bg-background text-foreground`}
             ref={setStartRef}
         >
             <motion.div
@@ -149,7 +196,11 @@ function App() {
                     contactRef,
                 }}
             />
-            <main className='container py-6 max-w-[1200px] px-4'>
+            <main
+                className={`container py-6 max-w-[1200px] px-4  ${
+                    konamiActive ? 'konami-active' : ''
+                }`}
+            >
                 <motion.section
                     id='hero'
                     className='py-8 md:py-14'
@@ -201,7 +252,7 @@ function App() {
                                 placeholder='Buscar skills...'
                                 value={skillSearch}
                                 onChange={(e) => setSkillSearch(e.target.value)}
-                                className='w-full pl-10 pr-10 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent'
+                                className='w-full pl-9 py-2 border border-input justify-center rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent'
                             />
                             {skillSearch && (
                                 <motion.button
@@ -213,7 +264,6 @@ function App() {
                                     onClick={() => setSkillSearch('')}
                                     className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground flex items-center justify-center'
                                 >
-                                    <X className='h-4 w-4' />
                                 </motion.button>
                             )}
                         </div>
@@ -223,7 +273,10 @@ function App() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className='text-sm text-muted-foreground mt-2'
                             >
-                                {filteredSkills.length} skill{filteredSkills.length !== 1 ? 's' : ''} encontrada{filteredSkills.length !== 1 ? 's' : ''}
+                                {filteredSkills.length} skill
+                                {filteredSkills.length !== 1 ? 's' : ''}{' '}
+                                encontrada
+                                {filteredSkills.length !== 1 ? 's' : ''}
                             </motion.p>
                         )}
                     </motion.div>
@@ -231,21 +284,16 @@ function App() {
                     <div className='relative'>
                         {skillSearch ? (
                             filteredSkills.length > 0 ? (
-                                <motion.div
-                                    className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
-                                    initial={false}
-                                    layout
-                                >
+                                <div className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                                     {filteredSkills.map((skill, index) => (
                                         <motion.div
                                             key={skill.name}
-                                            layout
-                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.8 }}
+                                            exit={{ opacity: 0, scale: 0.9 }}
                                             transition={{
-                                                duration: 0.3,
-                                                delay: index * 0.03,
+                                                duration: 0.2,
+                                                delay: index * 0.02,
                                             }}
                                         >
                                             <SkillCard
@@ -254,7 +302,7 @@ function App() {
                                             />
                                         </motion.div>
                                     ))}
-                                </motion.div>
+                                </div>
                             ) : (
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
@@ -262,10 +310,12 @@ function App() {
                                     className='text-center pt-12'
                                 >
                                     <p className='text-lg text-muted-foreground'>
-                                        Aprendiendo nuevas tecnologías para añadir aquí...
+                                        Aprendiendo nuevas tecnologías para
+                                        añadir aquí...
                                     </p>
                                     <p className='text-sm text-muted-foreground mt-2'>
-                                        No se encontraron skills que coincidan con tu búsqueda
+                                        No se encontraron skills que coincidan
+                                        con tu búsqueda
                                     </p>
                                 </motion.div>
                             )
@@ -275,20 +325,25 @@ function App() {
                                     className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
                                     initial={false}
                                 >
-                                    {filteredSkills.slice(0, defaultVisibleSkillsCount).map((skill) => (
-                                        <motion.div
-                                            key={skill.name}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.3 }}
-                                        >
-                                            <SkillCard
-                                                skill={skill.name}
-                                                level={skill.level}
-                                            />
-                                        </motion.div>
-                                    ))}
+                                    {filteredSkills
+                                        .slice(0, defaultVisibleSkillsCount)
+                                        .map((skill) => (
+                                            <motion.div
+                                                key={skill.name}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{
+                                                    opacity: 1,
+                                                    y: 0,
+                                                }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <SkillCard
+                                                    skill={skill.name}
+                                                    level={skill.level}
+                                                />
+                                            </motion.div>
+                                        ))}
                                 </motion.div>
 
                                 <motion.div
@@ -298,84 +353,110 @@ function App() {
                                         opacity: showAllSkills ? 1 : 0,
                                     }}
                                     transition={{
-                                        height: { duration: 0.4, ease: 'easeInOut' },
-                                        opacity: { duration: showAllSkills ? 0.4 : 0.2, delay: showAllSkills ? 0.1 : 0 }
+                                        height: {
+                                            duration: 0.4,
+                                            ease: 'easeInOut',
+                                        },
+                                        opacity: {
+                                            duration: showAllSkills ? 0.4 : 0.2,
+                                            delay: showAllSkills ? 0.1 : 0,
+                                        },
                                     }}
-                                    style={{ overflow: showAllSkills ? 'visible' : 'hidden' }}
+                                    style={{
+                                        overflow: showAllSkills
+                                            ? 'visible'
+                                            : 'hidden',
+                                    }}
                                 >
                                     <motion.div
                                         className='grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4'
                                         initial={false}
                                     >
-                                        {filteredSkills.slice(defaultVisibleSkillsCount).map((skill, index) => (
-                                            <motion.div
-                                                key={skill.name}
-                                                initial={false}
-                                                animate={showAllSkills ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-                                                transition={{
-                                                    duration: 0.3,
-                                                    delay: showAllSkills ? index * 0.05 : 0,
-                                                    ease: 'easeOut'
-                                                }}
-                                            >
-                                                <SkillCard
-                                                    skill={skill.name}
-                                                    level={skill.level}
-                                                />
-                                            </motion.div>
-                                        ))}
+                                        {filteredSkills
+                                            .slice(defaultVisibleSkillsCount)
+                                            .map((skill, index) => (
+                                                <motion.div
+                                                    key={skill.name}
+                                                    initial={false}
+                                                    animate={
+                                                        showAllSkills
+                                                            ? {
+                                                                  opacity: 1,
+                                                                  y: 0,
+                                                              }
+                                                            : {
+                                                                  opacity: 0,
+                                                                  y: -10,
+                                                              }
+                                                    }
+                                                    transition={{
+                                                        duration: 0.3,
+                                                        delay: showAllSkills
+                                                            ? index * 0.05
+                                                            : 0,
+                                                        ease: 'easeOut',
+                                                    }}
+                                                >
+                                                    <SkillCard
+                                                        skill={skill.name}
+                                                        level={skill.level}
+                                                    />
+                                                </motion.div>
+                                            ))}
                                     </motion.div>
                                 </motion.div>
                             </>
                         )}
                     </div>
-                    {!skillSearch && filteredSkills.length > defaultVisibleSkillsCount && (
-                        <motion.div
-                            className='mt-8 text-center'
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                        >
+                    {!skillSearch &&
+                        filteredSkills.length > defaultVisibleSkillsCount && (
                             <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                                className='mt-8 text-center'
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
                             >
-                                <Button
-                                    onClick={() => {
-                                        const rect =
-                                            skillsRef?.getBoundingClientRect();
-                                        const scrollTop =
-                                            window.pageYOffset ||
-                                            document.documentElement.scrollTop;
-
-                                        if (
-                                            showAllSkills &&
-                                            window.pageYOffset >
-                                                rect.top + scrollTop
-                                        ) {
-                                            skillsRef?.scrollIntoView({
-                                                behavior: 'smooth',
-                                            });
-                                        } else if (
-                                            !showAllSkills &&
-                                            window.pageYOffset <
-                                                rect.top + scrollTop
-                                        ) {
-                                            skillsRef?.scrollIntoView({
-                                                behavior: 'smooth',
-                                            });
-                                        }
-                                        toggleSkills();
-                                    }}
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    {showAllSkills
-                                        ? 'Mostrar menos'
-                                        : 'Mostrar más'}
-                                </Button>
+                                    <Button
+                                        onClick={() => {
+                                            const rect =
+                                                skillsRef?.getBoundingClientRect();
+                                            const scrollTop =
+                                                window.pageYOffset ||
+                                                document.documentElement
+                                                    .scrollTop;
+
+                                            if (
+                                                showAllSkills &&
+                                                window.pageYOffset >
+                                                    rect.top + scrollTop
+                                            ) {
+                                                skillsRef?.scrollIntoView({
+                                                    behavior: 'smooth',
+                                                });
+                                            } else if (
+                                                !showAllSkills &&
+                                                window.pageYOffset <
+                                                    rect.top + scrollTop
+                                            ) {
+                                                skillsRef?.scrollIntoView({
+                                                    behavior: 'smooth',
+                                                });
+                                            }
+                                            toggleSkills();
+                                        }}
+                                    >
+                                        {showAllSkills
+                                            ? 'Mostrar menos'
+                                            : 'Mostrar más'}
+                                    </Button>
+                                </motion.div>
                             </motion.div>
-                        </motion.div>
-                    )}
+                        )}
                 </motion.section>
 
                 <motion.section
