@@ -1,7 +1,5 @@
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from './card';
-import { fadeIn } from '../lib/motions';
 import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from './card';
 const SkillCard = ({ skill, level }) => {
     const skills = {
         1: 'Básico',
@@ -12,9 +10,6 @@ const SkillCard = ({ skill, level }) => {
     return (
         <motion.div
             className='h-full'
-            variants={fadeIn}
-            exit={{ opacity: 0, scale: 0.8, display: 'none' }}
-            transition={{ duration: 0.2 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
         >

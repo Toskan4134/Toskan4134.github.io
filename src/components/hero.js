@@ -1,6 +1,5 @@
-import React from 'react';
-import { Button } from './button';
 import { motion } from 'framer-motion';
+import { Button } from './button';
 const Hero = ({
     name,
     subtitle,

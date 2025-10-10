@@ -1,16 +1,15 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Github } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { fadeIn } from '../lib/motions';
+import { Button } from './button';
 import {
     Card,
+    CardContent,
+    CardDescription,
     CardHeader,
     CardTitle,
-    CardDescription,
-    CardContent,
 } from './card';
-import { Button } from './button';
-import { Github, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { fadeIn } from '../lib/motions';
 
 const ProjectCard = ({
     title,

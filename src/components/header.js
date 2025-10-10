@@ -1,7 +1,9 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+import { Menu, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logob from '../assets/logob.png';
+import logow from '../assets/logow.png';
 import { Button } from './button';
-import { Sun, Moon, Menu } from 'lucide-react';
 import {
     Sheet,
     SheetClose,
@@ -10,9 +12,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from './sheet';
-import logob from '../assets/logob.png';
-import logow from '../assets/logow.png';
-import { motion } from 'framer-motion';
 
 const Header = ({ theme, setTheme, refs }) => {
     const { startRef, skillsRef, experienceRef, projectsRef, contactRef } =
@@ -129,9 +128,8 @@ const Header = ({ theme, setTheme, refs }) => {
                             </SheetHeader>
                             <nav className='flex flex-col space-y-4 mt-4'>
                                 {navItems.map((item) => (
-                                    <SheetClose>
+                                    <SheetClose key={item.label}>
                                         <NavLink
-                                            key={item.label}
                                             onClick={() => {
                                                 item.ref?.scrollIntoView({
                                                     behavior: 'smooth',
