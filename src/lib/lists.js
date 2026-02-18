@@ -233,16 +233,26 @@ export const projects = [
         image: 'https://i.imgur.com/IHxyTf0.png',
     },
     {
-        title: 'DnD Printable Character Generator',
+        title: 'Fakedex',
         description:
-            'Este proyecto es una herramienta para generar fichas y miniaturas de DnD imprimibles',
-        github: 'https://github.com/toskan4134/dnd-printable-character-generator',
+            'Una Pokédex gratuita para juegos de Pokémon hechos con Pokémon Essentials. Explora los Pokémon, movimientos, objetos y encuentros de cada región.',
         web: {
             name: 'Ver',
-            url: 'https://toskan4134.github.io/dnd-printable-character-generator/',
+            url: 'https://www.fakedex.es/',
         },
-        image: 'https://i.imgur.com/OUHgRXI.png',
+        image: 'https://i.imgur.com/Q5rSNng.png',
     },
+    // {
+    //     title: 'DnD Printable Character Generator',
+    //     description:
+    //         'Este proyecto es una herramienta para generar fichas y miniaturas de DnD imprimibles',
+    //     github: 'https://github.com/toskan4134/dnd-printable-character-generator',
+    //     web: {
+    //         name: 'Ver',
+    //         url: 'https://toskan4134.github.io/dnd-printable-character-generator/',
+    //     },
+    //     image: 'https://i.imgur.com/OUHgRXI.png',
+    // },
     // {
     //     title: "Human's Fate Reborn",
     //     description: 'Trabajo para Programación de Multimedia 2ºDAM con libGDX',

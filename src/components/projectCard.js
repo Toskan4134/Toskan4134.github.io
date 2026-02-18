@@ -38,28 +38,32 @@ const ProjectCard = ({
                 </CardHeader>
                 <CardContent>
                     <div className='flex space-x-4'>
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Button asChild variant='outline' size='sm'>
-                                <Link to={github}>
-                                    <Github className='mr-2 h-4 w-4' />
-                                    GitHub
-                                </Link>
-                            </Button>
-                        </motion.div>
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Button asChild variant='outline' size='sm'>
-                                <Link to={web.url} reloadDocument>
-                                    <ExternalLink className='mr-2 h-4 w-4' />
-                                    {web.name}
-                                </Link>
-                            </Button>
-                        </motion.div>
+                        {github && (
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <Button asChild variant='outline' size='sm'>
+                                    <Link to={github}>
+                                        <Github className='mr-2 h-4 w-4' />
+                                        GitHub
+                                    </Link>
+                                </Button>
+                            </motion.div>
+                        )}
+                        {web && (
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <Button asChild variant='outline' size='sm'>
+                                    <Link to={web.url} reloadDocument>
+                                        <ExternalLink className='mr-2 h-4 w-4' />
+                                        {web.name}
+                                    </Link>
+                                </Button>
+                            </motion.div>
+                        )}
                     </div>
                 </CardContent>
             </Card>
