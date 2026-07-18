@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { Menu, Moon, Sun } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Languages, Menu, Moon, Sun } from 'lucide-react';
 import logob from '../assets/logob.png';
 import logow from '../assets/logow.png';
+import { ui, useLang } from '../lib/i18n';
 import { Button } from './button';
 import {
     Sheet,
@@ -13,49 +13,34 @@ import {
     SheetTrigger,
 } from './sheet';
 
-const Header = ({ theme, setTheme, refs }) => {
-    const { startRef, skillsRef, experienceRef, projectsRef, contactRef } =
-        refs;
+const navItems = [
+    { id: 'skills', label: ui.nav.skills },
+    { id: 'projects', label: ui.nav.projects },
+    { id: 'experience', label: ui.nav.experience },
+    { id: 'education', label: ui.nav.education },
+    { id: 'contact', label: ui.nav.contact },
+];
 
-    if (!skillsRef || !experienceRef || !projectsRef || !contactRef) {
-        return null;
-    }
+const Header = ({ theme, setTheme }) => {
+    const { lang, setLang, t } = useLang();
 
-    function NavLink({ children, onClick, isMenu = false }) {
-        return (
-            <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={onClick}
-                className={`cursor-pointer text-left ${
-                    isMenu ? 'origin-left' : 'origin-center'
-                }`}
-            >
-                <p className='text-sm font-medium transition-colors'>
-                    {children}
-                </p>
-            </motion.div>
-        );
-    }
-
-    const navItems = [
-        { ref: skillsRef, label: 'Skills' },
-        { ref: projectsRef, label: 'Proyectos' },
-        { ref: experienceRef, label: 'Experiencia' },
-        { ref: contactRef, label: 'Contacto' },
-    ];
+    const NavLink = ({ id, children, isMenu = false }) => (
+        <motion.a
+            href={`#${id}`}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`cursor-pointer text-left text-sm font-medium transition-colors hover:text-primary ${
+                isMenu ? 'origin-left' : 'origin-center'
+            }`}
+        >
+            {children}
+        </motion.a>
+    );
 
     return (
         <header className='sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full px-4'>
             <nav className='flex h-14 items-center'>
-                <Link
-                    className='mr-6 flex items-center space-x-2'
-                    onClick={() => {
-                        startRef?.scrollIntoView({
-                            behavior: 'smooth',
-                        });
-                    }}
-                >
+                <a href='#hero' className='mr-6 flex items-center space-x-2'>
                     <motion.img
                         src={theme === 'dark' ? logow : logob}
                         alt='Toskan'
@@ -64,19 +49,12 @@ const Header = ({ theme, setTheme, refs }) => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                     />
-                </Link>
+                </a>
                 <div className='flex flex-1 items-center justify-end space-x-4'>
                     <div className='hidden md:flex space-x-4'>
                         {navItems.map((item) => (
-                            <NavLink
-                                key={item.label}
-                                onClick={() => {
-                                    item.ref?.scrollIntoView({
-                                        behavior: 'smooth',
-                                    });
-                                }}
-                            >
-                                {item.label}
+                            <NavLink key={item.id} id={item.id}>
+                                {t(item.label)}
                             </NavLink>
                         ))}
                     </div>
@@ -86,16 +64,30 @@ const Header = ({ theme, setTheme, refs }) => {
                     >
                         <Button
                             variant='ghost'
+                            size='sm'
+                            aria-label='Toggle language'
+                            className='gap-1.5 px-2 font-semibold'
+                            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+                        >
+                            <Languages className='h-4 w-4' />
+                            {lang.toUpperCase()}
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <Button
+                            variant='ghost'
                             size='icon'
                             aria-label='Toggle theme'
-                            className='w-9 px-0 no-konami'
+                            className='w-9 px-0'
                             onClick={() =>
                                 setTheme(theme === 'dark' ? 'light' : 'dark')
                             }
                         >
                             <Sun className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
                             <Moon className='absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
-                            <span className='sr-only'>Toggle theme</span>
                         </Button>
                     </motion.div>
                     <Sheet>
@@ -107,10 +99,10 @@ const Header = ({ theme, setTheme, refs }) => {
                                 <Button
                                     variant='ghost'
                                     size='icon'
-                                    className='md:hidden no-konami'
+                                    className='md:hidden'
                                 >
                                     <Menu className='h-5 w-5' />
-                                    <span className='sr-only'>Toggle menu</span>
+                                    <span className='sr-only'>Menu</span>
                                 </Button>
                             </motion.div>
                         </SheetTrigger>
@@ -124,20 +116,22 @@ const Header = ({ theme, setTheme, refs }) => {
                             }}
                         >
                             <SheetHeader>
-                                <SheetTitle>Menu</SheetTitle>
+                                <SheetTitle
+                                    style={{
+                                        color:
+                                            theme === 'dark'
+                                                ? '#ededed'
+                                                : '#171717',
+                                    }}
+                                >
+                                    Menu
+                                </SheetTitle>
                             </SheetHeader>
                             <nav className='flex flex-col space-y-4 mt-4'>
                                 {navItems.map((item) => (
-                                    <SheetClose key={item.label}>
-                                        <NavLink
-                                            onClick={() => {
-                                                item.ref?.scrollIntoView({
-                                                    behavior: 'smooth',
-                                                });
-                                            }}
-                                            isMenu
-                                        >
-                                            {item.label}
+                                    <SheetClose key={item.id} className='text-left'>
+                                        <NavLink id={item.id} isMenu>
+                                            {t(item.label)}
                                         </NavLink>
                                     </SheetClose>
                                 ))}
