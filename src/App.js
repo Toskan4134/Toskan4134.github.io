@@ -136,7 +136,7 @@ function App() {
                         <Contact />
                     </Section>
                 </main>
-                <footer className='border-t py-6 w-full'>
+                <footer className='border-t py-6 w-full flex justify-center'>
                     <Footer />
                 </footer>
                 {konamiActive && (
