@@ -148,7 +148,7 @@ const Skills = () => {
                 <>
                     <div className='relative'>
                         <motion.div
-                            className='overflow-hidden'
+                            className='overflow-hidden -mt-2 pt-2'
                             initial={false}
                             animate={{ height: collapsed ? 200 : 'auto' }}
                             transition={{ duration: 0.4, ease: 'easeInOut' }}
