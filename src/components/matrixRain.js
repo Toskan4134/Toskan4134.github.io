@@ -5,6 +5,8 @@ const COL_WIDTH = 18;
 const MASK_SRC = `${process.env.PUBLIC_URL}/logo.png`;
 const MASK_SCALE = 0.6; // proporción del lado corto de la ventana
 const MASK_CHURN = 40; // 1/40 de los glifos del logo se renuevan por frame
+const EXIT_SPREAD = 30; // filas de desfase entre las gotas que borran el logo
+const TRAIL = 30; // filas de estela antes de limpiar el residuo del fade
 const randChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 
 // active=false deja de generar gotas; las visibles terminan de caer y,
@@ -41,6 +43,9 @@ const MatrixRain = ({ active, onDone }) => {
         let doneAt = null;
         let mask = null; // capa offscreen con los glifos del logo
         let brights = []; // 0..1 por columna: cuánto queda del destello
+        let heads = new Int32Array(0); // fila hasta la que la lluvia ha destapado el logo
+        let tails = new Int32Array(0); // fila hasta la que ya lo ha vuelto a borrar
+        let wasActive = false;
 
         const paintCell = (c, r, ch) => {
             const x = c * COL_WIDTH;
@@ -49,6 +54,9 @@ const MatrixRain = ({ active, onDone }) => {
             mask.ctx.clearRect(x, y - COL_WIDTH, COL_WIDTH, COL_WIDTH + 4);
             mask.ctx.fillStyle = Math.random() < 0.15 ? '#b3e5ff' : '#00aaff';
             mask.ctx.fillText(ch, x, y);
+            // El glifo viejo sigue en el canvas principal desvaneciéndose:
+            // se borra para que el cambio sea seco y no un cruce de dos
+            ctx.clearRect(x, y - COL_WIDTH, COL_WIDTH, COL_WIDTH + 4);
         };
 
         // Rasteriza la silueta del logo a la rejilla de la lluvia: guarda el
@@ -79,15 +87,27 @@ const MatrixRain = ({ active, onDone }) => {
 
             const cols = Math.ceil(canvas.width / COL_WIDTH);
             const rows = Math.ceil(canvas.height / COL_WIDTH);
-            mask = { canvas: off, ctx: octx, cols, chars: [], cells: [] };
+            mask = {
+                canvas: off,
+                ctx: octx,
+                cols,
+                chars: [],
+                cells: [],
+                columns: [], // [columna, primera fila, última fila] con logo
+            };
             for (let c = 0; c < cols; c++) {
+                let first = -1;
+                let lastRow = -1;
                 for (let r = 1; r < rows; r++) {
                     const px =
                         (r * COL_WIDTH * canvas.width + c * COL_WIDTH) * 4;
                     if (data[px + 3] <= 60) continue;
+                    if (first < 0) first = r;
+                    lastRow = r;
                     mask.cells.push([c, r]);
                     paintCell(c, r, randChar());
                 }
+                if (first >= 0) mask.columns.push([c, first, lastRow]);
             }
         };
 
@@ -102,6 +122,8 @@ const MatrixRain = ({ active, onDone }) => {
                         : null
             );
             brights = dropsRef.current.map(() => 0);
+            heads = new Int32Array(dropsRef.current.length);
+            tails = new Int32Array(dropsRef.current.length);
             buildMask();
         };
         const maskImg = new Image();
@@ -121,25 +143,71 @@ const MatrixRain = ({ active, onDone }) => {
             ctx.globalCompositeOperation = 'source-over';
             ctx.font = '15px monospace';
 
-            // El logo se repinta entero cada frame, así nunca se desvanece
-            if (activeRef.current && mask) {
+            // El fade multiplica el alfa y con 8 bits nunca llega a 0: cada
+            // glifo deja un gris residual permanente. Se limpia lo que queda
+            // por encima de la estela viva de cada columna
+            dropsRef.current.forEach((y, i) => {
+                if (y !== null && y > TRAIL)
+                    ctx.clearRect(
+                        i * COL_WIDTH,
+                        0,
+                        COL_WIDTH,
+                        (y - TRAIL) * COL_WIDTH
+                    );
+            });
+
+            if (activeRef.current !== wasActive) {
+                wasActive = activeRef.current;
+                if (wasActive) {
+                    heads.fill(0);
+                    tails.fill(0);
+                } else if (mask) {
+                    // Última pasada: cada columna del logo recibe una gota que
+                    // lo va borrando conforme cae, en vez de un fundido. Salen
+                    // a alturas repartidas (incluso fuera de pantalla) para que
+                    // el borrado no baje en línea recta
+                    mask.columns.forEach(([c, first]) => {
+                        const y = dropsRef.current[c];
+                        if (y === null || y > first - 2)
+                            dropsRef.current[c] =
+                                first - 2 - ((Math.random() * EXIT_SPREAD) | 0);
+                    });
+                }
+            }
+
+            // El logo se repinta cada frame (así nunca se desvanece) pero solo
+            // la franja que la lluvia ya ha destapado y aún no ha borrado
+            let showing = false;
+            if (mask) {
                 for (let n = mask.cells.length / MASK_CHURN; n > 0; n--) {
                     const [c, r] =
                         mask.cells[(Math.random() * mask.cells.length) | 0];
                     paintCell(c, r, randChar());
                 }
-                ctx.drawImage(mask.canvas, 0, 0);
+                mask.columns.forEach(([c, first, lastRow]) => {
+                    const top = Math.max(first, tails[c] + 1);
+                    const bottom = Math.min(lastRow, heads[c]);
+                    if (bottom < top) return;
+                    showing = true;
+                    const x = c * COL_WIDTH;
+                    const y = (top - 1) * COL_WIDTH;
+                    const h = (bottom - top + 1) * COL_WIDTH + 4;
+                    ctx.drawImage(mask.canvas, x, y, COL_WIDTH, h, x, y, COL_WIDTH, h);
+                });
             }
 
             const drops = dropsRef.current;
             let falling = false;
             drops.forEach((y, i) => {
                 if (y === null) return;
-                if (!activeRef.current && y < 0) {
+                if (!activeRef.current && y < -EXIT_SPREAD) {
                     drops[i] = null;
                     return;
                 }
                 falling = true;
+                // La gota destapa el logo al bajar; sin lluvia, lo tapa
+                if (y > heads[i]) heads[i] = y;
+                if (!activeRef.current && y > tails[i]) tails[i] = y;
                 const inMask =
                     mask && y >= 0 ? mask.chars[y * mask.cols + i] : null;
                 // Al cruzar el logo la gota se enciende y luego se apaga sola
@@ -167,7 +235,7 @@ const MatrixRain = ({ active, onDone }) => {
                 }
             });
 
-            if (falling || activeRef.current) {
+            if (falling || showing || activeRef.current) {
                 doneAt = null;
             } else if (doneAt === null) {
                 doneAt = time;
