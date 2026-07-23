@@ -122,7 +122,7 @@ const Skills = () => {
                                 className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
                                     active
                                         ? 'border-primary bg-primary text-primary-foreground'
-                                        : 'hover:border-primary/60 hover:text-primary'
+                                        : 'bg-background hover:border-primary/60 hover:bg-accent hover:text-primary'
                                 }`}
                             >
                                 <Icon className='h-3.5 w-3.5' />
