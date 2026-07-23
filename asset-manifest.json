@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.a88c006a.css",
-    "main.js": "/static/js/main.fa91b5eb.js",
+    "main.css": "/static/css/main.b29edf37.css",
+    "main.js": "/static/js/main.a578e186.js",
     "static/media/YoCartoonWide.png": "/static/media/YoCartoonWide.12ac2d7cba768125f34c.png",
     "static/media/logob.png": "/static/media/logob.14d1e0c626a773a33715.png",
     "static/media/logow.png": "/static/media/logow.cc0874f975eed7ace932.png",
     "index.html": "/index.html",
-    "main.a88c006a.css.map": "/static/css/main.a88c006a.css.map",
-    "main.fa91b5eb.js.map": "/static/js/main.fa91b5eb.js.map"
+    "main.b29edf37.css.map": "/static/css/main.b29edf37.css.map",
+    "main.a578e186.js.map": "/static/js/main.a578e186.js.map"
   },
   "entrypoints": [
-    "static/css/main.a88c006a.css",
-    "static/js/main.fa91b5eb.js"
+    "static/css/main.b29edf37.css",
+    "static/js/main.a578e186.js"
   ]
 }
