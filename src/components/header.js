@@ -38,7 +38,7 @@ const Header = ({ theme, setTheme }) => {
     );
 
     return (
-        <header className='sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full px-4'>
+        <header className='sticky top-0 z-20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full px-4'>
             <nav className='flex h-14 items-center'>
                 <a href='#hero' className='mr-6 flex items-center space-x-2'>
                     <motion.img
