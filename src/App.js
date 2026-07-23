@@ -109,7 +109,7 @@ function App() {
                     style={{ scaleX, originX: 0 }}
                 />
                 <Header theme={theme} setTheme={setTheme} />
-                <main className='container py-6 max-w-[1200px] px-4 overflow-x-clip'>
+                <main className='container relative z-10 py-6 max-w-[1200px] px-4 overflow-x-clip'>
                     <motion.section
                         id='hero'
                         className='py-8 md:py-14'
@@ -136,7 +136,7 @@ function App() {
                         <Contact />
                     </Section>
                 </main>
-                <footer className='border-t py-6 w-full flex justify-center'>
+                <footer className='relative z-10 border-t py-6 w-full flex justify-center'>
                     <Footer />
                 </footer>
                 {konamiActive && (

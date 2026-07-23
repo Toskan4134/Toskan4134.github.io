@@ -111,19 +111,28 @@ const MatrixRain = ({ active, onDone }) => {
             }
         };
 
+        // El resize conserva el estado de las columnas que siguen existiendo:
+        // solo las nuevas arrancan de cero, así la animación no se reinicia
         const resize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            dropsRef.current = Array.from(
-                { length: Math.ceil(canvas.width / COL_WIDTH) },
-                () =>
-                    activeRef.current
-                        ? Math.floor(Math.random() * -40)
-                        : null
+            const cols = Math.ceil(canvas.width / COL_WIDTH);
+            const drops = dropsRef.current;
+            dropsRef.current = Array.from({ length: cols }, (_, i) =>
+                i < drops.length
+                    ? drops[i]
+                    : activeRef.current
+                    ? Math.floor(Math.random() * -40)
+                    : null
             );
-            brights = dropsRef.current.map(() => 0);
-            heads = new Int32Array(dropsRef.current.length);
-            tails = new Int32Array(dropsRef.current.length);
+            brights = dropsRef.current.map((_, i) => brights[i] ?? 0);
+            const grow = (prev) => {
+                const next = new Int32Array(cols);
+                next.set(prev.subarray(0, Math.min(cols, prev.length)));
+                return next;
+            };
+            heads = grow(heads);
+            tails = grow(tails);
             buildMask();
         };
         const maskImg = new Image();
