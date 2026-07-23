@@ -71,7 +71,7 @@ const ProjectCard = ({ project, t }) => (
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Button asChild variant='outline' size='sm'>
+                                <Button asChild variant='outline' size='sm' className='bg-transparent'>
                                     <a
                                         href={link.url}
                                         target='_blank'
