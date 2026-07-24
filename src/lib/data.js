@@ -340,7 +340,7 @@ export const projects = [
             en: 'Lethal Company mod that adds a customizable health regeneration system, synced with the host settings.',
         },
         tags: ['C#', 'Unity'],
-        image: 'https://i.imgur.com/IHxyTf0.png',
+        image: 'https://i.imgur.com/OIRyXW1.png',
         links: [
             {
                 icon: 'github',
@@ -377,24 +377,19 @@ export const projects = [
         ],
     },
     {
-        title: 'EasyTrade',
+        title: 'Apachas',
         period: '2026',
         description: {
-            es: 'Plugin de Hytale para intercambios seguros entre jugadores, con una interfaz interactiva y transacciones atómicas.',
-            en: 'Hytale plugin for safe player-to-player trading, with an interactive UI and atomic transactions.',
+            es: 'Reparte los gastos con tus amigos. Al estilo de Splitwise o Tricount, totalmente autohospedado. Un servidor, una URL: la aplicación web, la PWA instalable y la aplicación nativa para Android se conectan todas al mismo sitio.',
+            en: 'Split expenses with your friends. Splitwise/Tricount style, fully self-hosted. One server, one URL: the web app, the installable PWA and the native Android app all talk to the same place.',
         },
-        tags: ['Java', 'Hytale'],
-        image: 'https://github.com/Toskan4134/EasyTrade/blob/main/src/main/resources/Common/UI/Custom/Toskan4134_EasyTrade.png?raw=true',
+        tags: ['React', 'Docker', 'Tailwind', 'AI'],
+        image: 'https://github.com/Toskan4134/Apachas/blob/main/apps/web/public/icons/icon.svg?raw=true',
         links: [
             {
                 icon: 'github',
                 label: 'GitHub',
-                url: 'https://github.com/Toskan4134/EasyTrade',
-            },
-            {
-                icon: 'external',
-                label: 'CurseForge',
-                url: 'https://www.curseforge.com/hytale/mods/easytrade',
+                url: 'https://github.com/Toskan4134/Apachas',
             },
         ],
     },
