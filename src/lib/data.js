@@ -391,6 +391,11 @@ export const projects = [
                 label: 'GitHub',
                 url: 'https://github.com/Toskan4134/Apachas',
             },
+            {
+                icon: 'external',
+                label: { es: 'Web', en: 'Website' },
+                url: 'https://apachas.toskan.es',
+            },
         ],
     },
 ];
