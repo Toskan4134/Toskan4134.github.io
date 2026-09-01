@@ -4,6 +4,7 @@
 export const skillCategories = [
     { id: 'frontend', label: { es: 'Frontend', en: 'Frontend' } },
     { id: 'backend', label: { es: 'Backend', en: 'Backend' } },
+    { id: 'ai', label: { es: 'IA / LLM', en: 'AI / LLM' } },
     { id: 'data', label: { es: 'Datos', en: 'Data' } },
     { id: 'devops', label: { es: 'DevOps', en: 'DevOps' } },
     { id: 'tools', label: { es: 'Herramientas', en: 'Tools' } },
@@ -20,7 +21,7 @@ export const skills = [
     },
     {
         name: 'TypeScript',
-        level: 3,
+        level: 4,
         category: 'frontend',
         related: ['JavaScript', 'React', 'Next.js'],
         tags: ['web', 'frontend', 'backend', 'programming'],
@@ -68,7 +69,7 @@ export const skills = [
     },
     {
         name: 'Tailwind',
-        level: 2,
+        level: 3,
         category: 'frontend',
         related: ['CSS', 'React', 'Next.js', 'Vue.js', 'HTML'],
         tags: ['web', 'frontend', 'css', 'styling', 'design', 'framework'],
@@ -140,10 +141,10 @@ export const skills = [
     },
     {
         name: 'Python',
-        level: 1,
+        level: 2,
         category: 'backend',
-        related: ['R', 'Weka'],
-        tags: ['programming', 'data-science', 'backend', 'ai', 'ml'],
+        related: ['FastAPI', 'Django', 'LangChain / LangGraph', 'R', 'Weka'],
+        tags: ['programming', 'data-science', 'backend', 'ai', 'ml', 'asyncio'],
         aliases: ['py'],
     },
     {
@@ -155,12 +156,60 @@ export const skills = [
         aliases: ['rustlang'],
     },
     {
+        name: 'FastAPI',
+        level: 3,
+        category: 'backend',
+        related: ['Python', 'Django', 'LangChain / LangGraph'],
+        tags: ['backend', 'python', 'api', 'rest', 'framework', 'async'],
+        aliases: ['uvicorn', 'pydantic'],
+    },
+    {
+        name: 'Hono',
+        level: 2,
+        category: 'backend',
+        related: ['TypeScript', 'Cloudflare Workers', 'Node.js'],
+        tags: ['backend', 'typescript', 'api', 'rest', 'framework', 'edge', 'openapi'],
+        aliases: ['honojs', 'zod'],
+    },
+    {
+        name: 'Django',
+        level: 2,
+        category: 'backend',
+        related: ['Python', 'FastAPI', 'MySQL / PostgreSQL'],
+        tags: ['backend', 'python', 'web', 'framework', 'api'],
+        aliases: ['django rest framework'],
+    },
+    {
         name: 'Keycloak',
         level: 1,
         category: 'backend',
         related: ['Java', 'Spring Boot'],
         tags: ['backend', 'security', 'authentication', 'java'],
         aliases: [],
+    },
+    {
+        name: 'LangChain / LangGraph',
+        level: 2,
+        category: 'ai',
+        related: ['Python', 'FastAPI', 'RAG / pgvector', 'LLM APIs'],
+        tags: ['ai', 'llm', 'agents', 'python', 'tool-calling', 'ml'],
+        aliases: ['langchain', 'langgraph', 'langsmith', 'agentes', 'agents'],
+    },
+    {
+        name: 'RAG / pgvector',
+        level: 2,
+        category: 'ai',
+        related: ['LangChain / LangGraph', 'MySQL / PostgreSQL', 'Python'],
+        tags: ['ai', 'llm', 'rag', 'embeddings', 'search', 'data'],
+        aliases: ['rag', 'pgvector', 'embeddings', 'vector search'],
+    },
+    {
+        name: 'LLM APIs',
+        level: 2,
+        category: 'ai',
+        related: ['LangChain / LangGraph', 'TypeScript', 'Python'],
+        tags: ['ai', 'llm', 'api', 'gemini', 'openai'],
+        aliases: ['gemini', 'openai', 'openrouter', 'vercel ai sdk', 'ai sdk'],
     },
     {
         name: 'MongoDB',
@@ -172,11 +221,27 @@ export const skills = [
     },
     {
         name: 'MySQL / PostgreSQL',
-        level: 2,
+        level: 3,
         category: 'data',
-        related: ['Java', 'Spring Boot', 'Node.js', 'PHP / Laravel'],
+        related: ['Java', 'Spring Boot', 'Node.js', 'PHP / Laravel', 'Drizzle ORM', 'RAG / pgvector'],
         tags: ['database', 'backend', 'sql', 'data', 'db'],
         aliases: ['mysql', 'postgresql', 'postgres'],
+    },
+    {
+        name: 'Drizzle ORM',
+        level: 3,
+        category: 'data',
+        related: ['TypeScript', 'MySQL / PostgreSQL', 'Hono'],
+        tags: ['database', 'orm', 'typescript', 'sql', 'migrations', 'data'],
+        aliases: ['drizzle', 'drizzle-kit'],
+    },
+    {
+        name: 'Redis',
+        level: 2,
+        category: 'data',
+        related: ['Node.js', 'Python', 'Docker'],
+        tags: ['database', 'cache', 'queues', 'nosql', 'data', 'db'],
+        aliases: ['redis 7', 'colas', 'queues'],
     },
     {
         name: 'R',
@@ -209,6 +274,14 @@ export const skills = [
         related: [],
         tags: ['devops', 'version-control', 'tools'],
         aliases: ['github', 'gitlab'],
+    },
+    {
+        name: 'Cloudflare Workers',
+        level: 2,
+        category: 'devops',
+        related: ['Hono', 'TypeScript', 'Next.js', 'Docker'],
+        tags: ['cloud', 'edge', 'serverless', 'deployment', 'devops'],
+        aliases: ['cloudflare', 'workers', 'wrangler', 'opennext', 'hyperdrive'],
     },
     {
         name: 'Azure / AWS (Cloud)',
@@ -402,10 +475,110 @@ export const projects = [
 
 export const experience = [
     {
-        company: 'Hiberus',
-        position: { es: 'Desarrollador Full Stack', en: 'Full Stack Developer' },
-        period: { es: 'Diciembre 2024 - Actual', en: 'December 2024 - Present' },
+        company: 'Capillar IT',
+        start: '2026-08-31',
+        end: null,
+        position: {
+            es: 'Programador Senior Full Stack',
+            en: 'Senior Full Stack Developer',
+        },
+        period: { es: 'Agosto 2026 - Actual', en: 'August 2026 - Present' },
         current: true,
+        location: { es: 'Zaragoza, España', en: 'Zaragoza, Spain' },
+        website: 'https://capillarit.com',
+        tech: [
+            'TypeScript',
+            'Python',
+            'Hono',
+            'FastAPI',
+            'Next.js',
+            'PostgreSQL',
+            'LangGraph',
+            'Cloudflare Workers',
+            'Docker',
+        ],
+        entries: [
+            {
+                title: {
+                    es: 'API multi-tenant y backend',
+                    en: 'Multi-tenant API & backend',
+                },
+                points: [
+                    {
+                        es: 'API REST multi-tenant con Hono v4 sobre Cloudflare Workers, documentada con OpenAPI y clientes tipados generados.',
+                        en: 'Multi-tenant REST API with Hono v4 on Cloudflare Workers, documented with OpenAPI and generated typed clients.',
+                    },
+                    {
+                        es: 'Servicios en Python con FastAPI, validación con Zod y Pydantic y autenticación con Better-Auth.',
+                        en: 'Python services with FastAPI, validation with Zod and Pydantic, and authentication with Better-Auth.',
+                    },
+                    {
+                        es: 'PostgreSQL 16 con Drizzle ORM y Redis para las colas de la pasarela de WhatsApp.',
+                        en: 'PostgreSQL 16 with Drizzle ORM and Redis for the WhatsApp gateway queues.',
+                    },
+                ],
+            },
+            {
+                title: { es: 'Agentes de IA', en: 'AI agents' },
+                points: [
+                    {
+                        es: 'Agentes con LangGraph y LangChain: grafos de estado, tool calling tipado y memoria persistente en PostgreSQL.',
+                        en: 'Agents with LangGraph and LangChain: state graphs, typed tool calling and persistent memory in PostgreSQL.',
+                    },
+                    {
+                        es: 'RAG con embeddings sobre pgvector e ingesta multimodal (voz, foto y PDF).',
+                        en: 'RAG with embeddings on pgvector and multimodal ingestion (voice, photo and PDF).',
+                    },
+                    {
+                        es: 'Modelos de Gemini, OpenAI y OpenRouter integrados con el AI SDK de Vercel, con trazas y evaluación en LangSmith.',
+                        en: 'Gemini, OpenAI and OpenRouter models integrated with the Vercel AI SDK, with tracing and evaluation in LangSmith.',
+                    },
+                ],
+            },
+            {
+                title: { es: 'Frontend y PWA', en: 'Frontend & PWA' },
+                points: [
+                    {
+                        es: 'Next.js 16 (App Router, Server Components y Server Actions) con React 19, Tailwind CSS 4 y shadcn/ui.',
+                        en: 'Next.js 16 (App Router, Server Components and Server Actions) with React 19, Tailwind CSS 4 and shadcn/ui.',
+                    },
+                    {
+                        es: 'PWA móvil de picking, tablas virtualizadas con TanStack y exportación a Excel y PDF.',
+                        en: 'Mobile picking PWA, virtualized tables with TanStack, and Excel and PDF export.',
+                    },
+                ],
+            },
+            {
+                title: {
+                    es: 'Infraestructura e integraciones',
+                    en: 'Infrastructure & integrations',
+                },
+                points: [
+                    {
+                        es: 'Despliegues en Cloudflare Workers, Google Cloud Run y VPS con Docker, Nginx y CI/CD en Forgejo Actions.',
+                        en: 'Deployments on Cloudflare Workers, Google Cloud Run and VPS with Docker, Nginx and CI/CD on Forgejo Actions.',
+                    },
+                    {
+                        es: 'Integraciones con WhatsApp Business, Telegram y conectores ERP on-prem mediante daemons asíncronos y colas por tenant.',
+                        en: 'Integrations with WhatsApp Business, Telegram and on-prem ERP connectors through async daemons and per-tenant queues.',
+                    },
+                    {
+                        es: 'Monitorización con Sentry y Uptime Kuma; tests con Vitest y pytest.',
+                        en: 'Monitoring with Sentry and Uptime Kuma; testing with Vitest and pytest.',
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        company: 'Hiberus',
+        start: '2024-12-01',
+        end: '2026-08-22',
+        position: { es: 'Desarrollador Full Stack', en: 'Full Stack Developer' },
+        period: {
+            es: 'Diciembre 2024 - Agosto 2026',
+            en: 'December 2024 - August 2026',
+        },
         location: { es: 'Zaragoza, España', en: 'Zaragoza, Spain' },
         website: 'https://hiberus.com',
         tech: ['Java', 'Spring Boot', 'Spring Cloud', 'Next.js', 'Docker', 'Keycloak', 'Git'],
@@ -466,6 +639,8 @@ export const experience = [
     },
     {
         company: 'Memorándum Multimedia',
+        start: '2024-03-01',
+        end: '2024-06-30',
         position: {
             es: 'Programador Full Stack (Becario)',
             en: 'Full Stack Developer (Intern)',
@@ -517,6 +692,8 @@ export const experience = [
     },
     {
         company: 'DXC Technology',
+        start: '2022-09-01',
+        end: '2023-06-30',
         position: {
             es: 'Programador Java (Becario)',
             en: 'Java Developer (Intern)',
@@ -545,6 +722,21 @@ export const experience = [
         ],
     },
 ];
+
+// Meses trabajados en total: fusiona los periodos solapados y cuenta hasta hoy
+export const experienceMonths = () => {
+    const ranges = experience
+        .map((job) => [+new Date(job.start), job.end ? +new Date(job.end) : Date.now()])
+        .sort((a, b) => a[0] - b[0]);
+    const merged = [];
+    for (const [start, end] of ranges) {
+        const last = merged[merged.length - 1];
+        if (last && start <= last[1]) last[1] = Math.max(last[1], end);
+        else merged.push([start, end]);
+    }
+    const days = merged.reduce((total, [s, e]) => total + (e - s), 0) / 86400000;
+    return Math.round(days / 30.437);
+};
 
 export const education = [
     {

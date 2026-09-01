@@ -9,7 +9,8 @@ import Hero from './components/hero';
 import MatrixRain from './components/matrixRain';
 import Projects from './components/projects';
 import Skills from './components/skills';
-import { detectLang, L, LanguageContext, ui } from './lib/i18n';
+import { experienceMonths } from './lib/data';
+import { detectLang, formatDuration, L, LanguageContext, ui } from './lib/i18n';
 
 const KONAMI = 'arrowup,arrowup,arrowdown,arrowdown,arrowleft,arrowright,arrowleft,arrowright,b,a';
 
@@ -30,7 +31,7 @@ function useKonami() {
     return active;
 }
 
-const Section = ({ id, title, children }) => (
+const Section = ({ id, title, badge, children }) => (
     <motion.section
         id={id}
         className='py-8 md:py-14 scroll-mt-16'
@@ -40,13 +41,18 @@ const Section = ({ id, title, children }) => (
         transition={{ duration: 0.5, delay: 0.2 }}
     >
         <motion.h2
-            className='text-3xl font-bold'
+            className='flex flex-wrap items-baseline gap-3 text-3xl font-bold'
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
         >
             {title}
+            {badge && (
+                <span className='rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary'>
+                    {badge}
+                </span>
+            )}
         </motion.h2>
         <motion.div
             className='mt-2 mb-8 h-1 w-16 rounded-full bg-gradient-to-r from-primary to-primary/30'
@@ -126,7 +132,11 @@ function App() {
                     <Section id='projects' title={t(ui.projects.title)}>
                         <Projects />
                     </Section>
-                    <Section id='experience' title={t(ui.experience.title)}>
+                    <Section
+                        id='experience'
+                        title={t(ui.experience.title)}
+                        badge={formatDuration(experienceMonths(), lang)}
+                    >
                         <Experience />
                     </Section>
                     <Section id='education' title={t(ui.education.title)}>

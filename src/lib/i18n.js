@@ -13,6 +13,18 @@ export const L = (value, lang) =>
         ? value[lang] ?? value.es
         : value;
 
+// 35 -> "2 años y 11 meses" / "2 yrs 11 mos"
+export const formatDuration = (months, lang) => {
+    const es = lang === 'es';
+    const y = Math.floor(months / 12);
+    const m = months % 12;
+    const parts = [];
+    if (y) parts.push(`${y} ${es ? (y === 1 ? 'año' : 'años') : y === 1 ? 'yr' : 'yrs'}`);
+    if (m) parts.push(`${m} ${es ? (m === 1 ? 'mes' : 'meses') : m === 1 ? 'mo' : 'mos'}`);
+    if (!parts.length) return es ? 'recién empezado' : 'just started';
+    return parts.join(es ? ' y ' : ' ');
+};
+
 export const ui = {
     nav: {
         skills: { es: 'Habilidades', en: 'Skills' },

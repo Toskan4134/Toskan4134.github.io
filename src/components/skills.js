@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import {
+    Bot,
     ChevronDown,
     Cloud,
     Database,
@@ -19,6 +20,7 @@ const categoryIcons = {
     all: Sparkles,
     frontend: Monitor,
     backend: Server,
+    ai: Bot,
     data: Database,
     devops: Cloud,
     tools: Wrench,
